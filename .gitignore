@@ -160,3 +160,6 @@ $RECYCLE.BIN/
 
 # End of gitignore [intellij,eclipse,vscode,windows,linux]
 
+demo-react/package-lock.json
+demo-react/node_modules/
+demo-react/build/
