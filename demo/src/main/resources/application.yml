@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://3.36.117.54:5432/saas
+    username: postgres
+    password: vivazio
+
+  jpa:
+    hibernate:
+      ddl-auto: update
