@@ -1,5 +1,6 @@
 ```
 cd demo-react
+npm i
 npm run build
 
 cd ../demo
