@@ -27,13 +27,9 @@ script:
   - npm i
   - npm run build
 
-before_script:
-  - cd ../demo
-
-script:
-  - ./mvnw clean install
-
 after_success:
+  - cd ../demo
+  - ./mvnw clean install
   - docker --version  # document the version travis is using
   - pip install --user awscli # install aws cli w/o sudo
   - export PATH=$PATH:$HOME/.local/bin # put aws in the path
