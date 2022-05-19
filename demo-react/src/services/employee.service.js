@@ -19,4 +19,12 @@ const update = data => {
 const remove = id => {
     return httpClient.delete(`/employees/${id}`);
 }
-export default { getAll, create, get, update, remove };
+
+const employees_svc = {
+    getAll,
+    create,
+    get,
+    update,
+    remove
+}
+export default employees_svc;
