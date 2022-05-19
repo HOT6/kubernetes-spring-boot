@@ -17,11 +17,12 @@ install:
 
 before_script:
   - cd demo-react
+
+script:
   - npm cache clean --force
 #  - npm cache verify
   - rm -rf node_modules package-lock.json
   - npm install
-  - ls -al
   - npm run build
 
 #script:
