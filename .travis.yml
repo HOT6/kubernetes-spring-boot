@@ -30,8 +30,8 @@ script:
 
 after_success:
   - cd ../demo
-  - pwd
   - mvn clean install
+  - cd ..
   - docker --version  # document the version travis is using
   - pip install --user awscli # install aws cli w/o sudo
   - export PATH=$PATH:$HOME/.local/bin # put aws in the path
