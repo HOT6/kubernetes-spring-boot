@@ -2,7 +2,7 @@ sudo: required #is required to use docker service in travis
 
 language: node_js
 node_js:
-  - "node"
+  - 14
 
 services:
   - docker # required, but travis uses older version of docker :(
@@ -12,6 +12,7 @@ before_install:
 
 install:
   - echo "install nothing!" # put your normal pre-testing installs here
+  - npm i -g npm@6
   - node -v
   - npm -v
 
