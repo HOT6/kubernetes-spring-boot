@@ -16,6 +16,7 @@ before_install:
 
 install:
   - echo "install nothing!" # put your normal pre-testing installs here
+  - node -v
   - npm -v
 
 before_script:
