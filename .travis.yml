@@ -21,6 +21,9 @@ install:
 
 before_script:
   - cd demo-react
+  - rm -rf node_modules
+  - npm cache verify
+  - npm install
   - ls -al
 
 script:
