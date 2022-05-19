@@ -17,12 +17,13 @@ before_install:
 install:
   - echo "install nothing!" # put your normal pre-testing installs here
 
-script:
+before_script:
   - cd demo-react
+
+script:
   - npm i
   - npm run build
-  - cd ..
-  - demo/mvnw clean install
+  - ../demo/mvnw clean install
 
 after_success:
   - docker --version  # document the version travis is using
