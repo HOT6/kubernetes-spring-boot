@@ -7,10 +7,6 @@ node_js:
 services:
   - docker # required, but travis uses older version of docker :(
 
-cache:
-  directories:
-    - demo-react/node_modules
-
 before_install:
   - docker pull openjdk:8-jdk-alpine
 
@@ -21,13 +17,15 @@ install:
 
 before_script:
   - cd demo-react
-  - rm -rf node_modules
-  - npm cache verify
+  - npm cache clean --force
+#  - npm cache verify
+  - rm -rf node_modules package-lock.json
   - npm install
   - ls -al
-
-script:
   - npm run build
+
+#script:
+#  - npm run build
 
 after_success:
   - cd ../demo
