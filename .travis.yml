@@ -6,7 +6,7 @@ language:
 jdk:
   - openjdk8
 node_js:
-  - 14
+  - node
 
 services:
   - docker # required, but travis uses older version of docker :(
