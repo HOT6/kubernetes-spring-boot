@@ -23,7 +23,7 @@ script:
 #  - npm cache verify
   - rm -rf node_modules package-lock.json
   - npm install
-  - npm run build
+  - CI='' npm run build
 
 #script:
 #  - npm run build
