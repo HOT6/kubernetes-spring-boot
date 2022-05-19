@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://3.36.117.54:5432/saas
-    username: postgres
-    password: vivazio
+    url: jdbc:postgresql://3.36.117.54:5432/testdb
+    username: test_user
+    password: secret123
 
   jpa:
     hibernate:
