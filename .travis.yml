@@ -22,9 +22,16 @@ before_script:
   - cd demo-react
 
 script:
+  - rm package-lock.json
+  - npm cache verify
   - npm i
   - npm run build
-  - ../demo/mvnw clean install
+
+before_script:
+  - cd ../demo
+
+script:
+  - ./mvnw clean install
 
 after_success:
   - docker --version  # document the version travis is using
