@@ -22,9 +22,6 @@ before_script:
   - cd demo-react
 
 script:
-  - rm package-lock.json
-  - npm cache verify
-  - npm i
   - npm run build
 
 after_success:
