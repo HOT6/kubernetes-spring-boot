@@ -20,6 +20,8 @@ install:
 
 before_script:
   - cd demo-react
+  - npm i
+  - ls -al
 
 script:
   - npm run build
