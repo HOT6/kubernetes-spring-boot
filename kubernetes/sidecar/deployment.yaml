@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-boot-demo
+  namespace: default
+spec:
+  replicas: 2
+  terminationGracePeriodSeconds: 30
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+        - name: spring-boot
+          image: 910058517622.dkr.ecr.ap-northeast-2.amazonaws.com/zionex-ecr:demo
+          imagePullPolicy: "Always"
+          ports:
+            - containerPort: 8080

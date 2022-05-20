@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: git-sync-test
+spec:
+  containers:
+  ###########################
+  # 첫번째, 메인 컨테이너
+  ###########################
+  - name: ubuntu
+    image: ubuntu:18.04
+    args:
+    - sleep
+    - "1000000"
+    volumeMounts:
+    - name: mygit
+      mountPath: "/git"
+  ###########################
+  # 두번째, 사이드카 컨테이너
+  ###########################
+  - name: git-sync
+    image: k8s.gcr.io/git-sync:v3.1.1
+    env:
+    - name: GIT_SYNC_REPO                 # git sync할 리모트 저장소
+      value: https://github.com/HOT6/kubernetes-spring-boot.git
+    - name: GIT_SYNC_BRANCH               # target branch
+      value: master
+    - name: GIT_SYNC_ROOT                 # 로컬 디렉토리 위치
+      value: "/git"
+    volumeMounts:
+    - name: mygit
+      mountPath: "/git"
+  restartPolicy: Never
+
+  # 서로 연결할 volume
+  volumes:
+  - name: mygit
+    emptyDir: {}

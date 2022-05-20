@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-info
+  namespace: default
+data:
+  db-host: ip-192-168-42-247.ap-northeast-2.compute.internal
