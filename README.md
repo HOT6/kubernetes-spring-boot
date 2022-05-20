@@ -5,6 +5,12 @@
   kubectl rollout restart deployment spring-boot-demo
   ```
 
+# configmap 수정
+- secret data의 경우 base64 인코딩 값을 입력 (`./kubernetes/secret_config.yaml`)
+```
+echo -n 'postgres' | base64
+cG9zdGdyZXM=
+```
 
 # usage
 ```
