@@ -43,7 +43,7 @@ const EmployeeList = () => {
           <thead className="thead-dark">
             <tr>
               <th>Name</th>
-              <th>Location</th>
+              <th>Location22</th>
               <th>Department</th>
               <th>Actions</th>
             </tr>

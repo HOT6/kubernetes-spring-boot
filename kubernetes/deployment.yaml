@@ -5,7 +5,6 @@ metadata:
   namespace: default
 spec:
   replicas: 2
-  terminationGracePeriodSeconds: 30
   selector:
     matchLabels:
       app: demo
@@ -15,24 +14,25 @@ spec:
         app: demo
     spec:
       containers:
-        - name: spring-boot
-          image: 910058517622.dkr.ecr.ap-northeast-2.amazonaws.com/zionex-ecr:demo
-          imagePullPolicy: "Always"
-          ports:
-            - containerPort: 8080
-          env:
-            - name: DB_HOST
-              valueFrom:
-                configMapKeyRef:
-                  name: spring-info
-                  key: db-host
-            - name: DB_USERNAME
-              valueFrom:
-                configMapKeyRef:
-                  name: spring-secret
-                  key: username
-            - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: spring-secret
-                  key: password
+      - name: spring-boot
+        image: 910058517622.dkr.ecr.ap-northeast-2.amazonaws.com/zionex-ecr:demo
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: spring-info
+              key: db-host
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: spring-secret
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: spring-secret
+              key: password
+
