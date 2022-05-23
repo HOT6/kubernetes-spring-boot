@@ -35,4 +35,10 @@ spec:
             secretKeyRef:
               name: spring-secret
               key: password
-
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
