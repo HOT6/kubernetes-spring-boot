@@ -15,7 +15,8 @@
   - Kubectl : https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
   - Docker : https://docs.docker.com/engine/install/ubuntu/
 
-# 클러스터 접속
+## 클러스터 접속
+  - EKS 구성한 계정으로 AWS CLI 인증 (aws configure) 후 아래 명령어 이용
 
 ```
 kubectl get svc
@@ -31,7 +32,7 @@ spring-boot-service   LoadBalancer   10.100.74.133   a2db1b87113cb42d7a0660bde6a
 ```
 kubectl edit configmap -n kube-system aws-auth
 ```
-example
+example - aws iam user에 등록된 joonser 에게 전체 접근 권한(system:masters) 부여
 ```
 data:
   mapRoles: |
@@ -57,7 +58,7 @@ brew install derailed/k9s/k9s
 ```
 
 # AWS ECR repo 생성 및 push
-- docker image를 저장하기 위한 repo 생성
+- container image (여기서는 docker image 사용)를 저장하기 위한 repo 생성
 - https://ap-northeast-2.console.aws.amazon.com/ecr/repositories?region=ap-northeast-2
 
 - sample
@@ -79,12 +80,12 @@ docker tag zionex-ecr:latest 910058517622.dkr.ecr.ap-northeast-2.amazonaws.com/z
 docker push 910058517622.dkr.ecr.ap-northeast-2.amazonaws.com/zionex-ecr:latest
 ```
 
-# Kubernetes deployment (`./deployment.yaml` 참고)
-  - configMap 설정 (`./configmap.yaml`)
+# Kubernetes deployment (`configs/deployment.yaml` 참고)
+  - configMap 설정 (`configs/configmap.yaml`)
   ```
   kubectl apply -f configmap.yaml
   ```
-  - secretKey 설정 (`./secret_config.yaml`)
+  - secretKey 설정 (`configs/secret_config.yaml`)
   ```
   kubectl apply -f secret_config.yaml
   ```
@@ -144,7 +145,7 @@ kubectl apply -f deployment.yaml
 kubectl get pods -n default
 ```
 
-# pod 내 웹서버 접근하기 위한 service 파일 작성 (`./service.yaml`)
+# pod 내 웹서버 접근하기 위한 service 파일 작성 (`configs/service.yaml`)
 - targetPort : pod 포트
 - port : 내가 접속할 포트
 - type: LoadBalancer (AWS LB 자동 생성)
@@ -200,6 +201,7 @@ default     spring-boot-demo   Deployment/spring-boot-demo   0%/80%    2        
 
 ## Prometheus & Grafana
 ```
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 
 helm upgrade --namespace prometheus --install kube-stack-prometheus prometheus-community/kube-prometheus-stack
 
@@ -214,6 +216,57 @@ kubectl port-forward --namespace prometheus svc/kube-stack-prometheus-grafana 80
 ```
 
 
+# Pagerduty - https://zionex.pagerduty.com/
+
+- Alert rule 추가 (`configs/alert-rules.yaml`)
+```
+additionalPrometheusRulesMap:
+- name: kubernetes-apps
+  groups:
+  - name: kubernetes-apps
+    rules:
+    - alert: InstanceLowMemoryAlert
+      expr: :node_memory_MemAvailable_bytes:sum < 50668858390
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Instance {{ $labels.host }} a {{ $labels.instance }} test namespace {{ $labels.namespace }} pod {{ $labels.pod }}: memory low"
+        description: "{{ $labels.host }} has less than 50G memory available"
+    - alert: InstanceDown
+      expr: up == 0
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Instance [{{ $labels.instance }}] down"
+        description: "[{{ $labels.instance }}] of job [{{ $labels.job }}] has been down for more than 1 minute."
+```
+- pagerduty 연동 (`configs/pagerduty.yaml`)
+  - prometheus-integration-key : pageduty -> service -> integrations 에서 확인
+
+![](./images/pageduty-integration.png)
+```
+alertmanager:
+  config:
+    global:
+      resolve_timeout: 1m
+      pagerduty_url: https://events.pagerduty.com/v2/enqueue
+
+    route:
+      group_by: ['alertname']
+      receiver: 'pagerduty-notifications'
+      routes:
+        - match:
+            altername: 'InstanceDown'
+          receiver: 'pagerduty-notifications'
+
+    receivers:
+    - name: 'pagerduty-notifications'
+      pagerduty_configs:
+      - service_key: prometheus-integration-key
+        send_resolved: true
+```
 
 
 
