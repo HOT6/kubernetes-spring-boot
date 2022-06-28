@@ -1,0 +1,28 @@
+alertmanager:
+  config:
+    global:
+      resolve_timeout: 5m
+      pagerduty_url: https://events.pagerduty.com/v2/enqueue
+
+    route:
+      group_by: ['alertname']
+      repeat_interval: 30m
+      receiver: 'pagerduty-notifications'
+      routes:
+      - match:
+          altername: 'InstanceDown'
+        receiver: 'pagerduty-notifications'
+      - match:
+          deployment: 'spring-boot-demo'
+        receiver: 'pagerduty-notifications'
+      # suppress
+      - match:
+          alertname: 'Watchdog'
+        receiver: 'null'
+    receivers:
+    - name: 'null'
+    - name: 'dev-ops'
+    - name: 'pagerduty-notifications'
+      pagerduty_configs:
+      - service_key: 43557b5ebf594b02d031fe6e6add845e
+        send_resolved: true

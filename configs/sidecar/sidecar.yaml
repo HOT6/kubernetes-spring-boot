@@ -1,0 +1,56 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: git-sync-test
+spec:
+  containers:
+  ###########################
+  # main container
+  ###########################
+  - name: ubuntu
+    image: ubuntu:18.04
+    args:
+    - sleep
+    - "1000000"
+    volumeMounts:
+    - name: mygit
+      mountPath: "/git"
+  ###########################
+  # sidecar container
+  ###########################
+  - name: git-sync
+    image: k8s.gcr.io/git-sync:v3.1.1
+    env:
+    - name: GIT_SYNC_REPO                 # git sync할 리모트 저장소
+      value: git@github.com:zionex/t3series-forecastserver.git
+    - name: GIT_SYNC_BRANCH               # target branch
+      value: master
+    - name: GIT_SYNC_ROOT                 # 로컬 디렉토리 위치
+      value: "/git"
+    - name: GIT_SYNC_SSH
+      value: "true"
+    - name: GIT_SYNC_ONE_TIME
+      value: "true"
+    - name: GIT_KNOWN_HOSTS
+      value: "false"
+    - name: GIT_SYNC_DEST
+      value: git-test
+    - name: GIT_SYNC_SPARSE_CHECKOUT_FILE
+      value: /src
+    securityContext:
+      runAsUser: 0
+    volumeMounts:
+    - name: mygit
+      mountPath: "/git"
+    - name: git-secret
+      mountPath: "/etc/git-secret"
+  restartPolicy: Never
+
+  # 서로 연결할 volume
+  volumes:
+  - name: mygit
+    emptyDir: {}
+  - name: git-secret
+    secret:
+      defaultMode: 256
+      secretName: git-creds

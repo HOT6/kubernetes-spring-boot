@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-operator
+data:
+  aws_region: ap-northeast-2
+  kube_iam_role: arn:aws:iam::910058517622:role/pg-operator-s3-role
+  wal_s3_bucket: zionex-pg
+  aws_endpoint: s3.ap-northeast-2.amazonaws.com
+  use_wale_backup: "true"
+  backup_schedule: "*/5 * * * *"

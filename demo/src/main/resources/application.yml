@@ -1,9 +1,19 @@
 spring:
   datasource:
-    url: jdbc:postgresql://${DB_HOST}:5432/testdb
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://saas-haproxy.t3.jp.zionex.com:5000/saas
+    username: postgres
+    password: vivazio
 
   jpa:
     hibernate:
       ddl-auto: update
+
+server:
+  port: 80
+
+management:
+  metrics:
+    export:
+      prometheus:
+        pushgateway:
+          enabled: true

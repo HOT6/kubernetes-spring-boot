@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    prometheus: kube-prometheus-stack-prometheus
+    role: alert-rules
+  name: spring-boot-demo
+spec:
+  groups:
+    - name: "InstanceDown.rules"
+    - rules:
+      - alert: InstanceDown
+        expr: up == 0
+        for: 1m
+        annotations:
+          title: 'Instance {{ $labels.instance }} down'
+          description: '{{ $labels.instance }} of job {{ $labels.job }} has been down for more than 1 minute.'
+        labels:
+          serverity: 'critical'

@@ -1,0 +1,21 @@
+additionalPrometheusRulesMap:
+- name: kubernetes-apps
+  groups:
+  - name: kubernetes-apps
+    rules:
+    - alert: InstanceLowMemoryAlert
+      expr: :node_memory_MemAvailable_bytes:sum < 50668858390
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Instance {{ $labels.host }} a {{ $labels.instance }} test namespace {{ $labels.namespace }} pod {{ $labels.pod }}: memory low"
+        description: "{{ $labels.host }} has less than 50G memory available"
+    - alert: InstanceDown
+      expr: up == 0
+      for: 1m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Instance [{{ $labels.instance }}] down"
+        description: "[{{ $labels.instance }}] of job [{{ $labels.job }}] has been down for more than 1 minute."

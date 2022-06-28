@@ -1,0 +1,36 @@
+# querier-service-servicemonitor.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: thanos-query
+  labels:
+    app: thanos-query
+    release: prometheus-operator
+    jobLabel: thanos
+  namespace: monitoring
+spec:
+  selector:
+    app: thanos-query
+  ports:
+    - port: 9090
+      protocol: TCP
+      targetPort: http
+      name: http-query
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: prom-thanos-query
+  namespace: monitoring
+spec:
+  jobLabel: thanos
+  selector:
+    matchLabels:
+      app: thanos-query
+  namespaceSelector:
+    matchNames:
+      - 'monitoring'
+  endpoints:
+    - port: http-query
+      path: /metrics
+      interval: 5s

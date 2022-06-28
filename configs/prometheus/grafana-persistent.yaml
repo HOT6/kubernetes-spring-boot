@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pvc-prom-grafana
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 100Gi
+  awsElasticBlockStore:
+    fsType: ext4
+    volumeID: vol-0543e84f3eb6d9512
+  storageClassName: grafana
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prom-grafana
+  namespace: monitoring
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 100Gi
+  storageClassName: grafana
+  volumeMode: Filesystem
+  volumeName: pvc-prom-grafana
+status:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 100Gi

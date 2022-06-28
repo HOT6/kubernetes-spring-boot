@@ -1,0 +1,19 @@
+alertmanager:
+  config:
+    global:
+      resolve_timeout: 1m
+      pagerduty_url: https://events.pagerduty.com/v2/enqueue
+
+    route:
+      group_by: ['alertname']
+      receiver: 'pagerduty-notifications'
+      routes:
+        - match:
+            altername: 'InstanceDown'
+          receiver: 'pagerduty-notifications'
+
+    receivers:
+    - name: 'pagerduty-notifications'
+      pagerduty_configs:
+      - service_key: 43557b5ebf594b02d031fe6e6add845e
+        send_resolved: true

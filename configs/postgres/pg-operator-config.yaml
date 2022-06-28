@@ -1,0 +1,9 @@
+apiVersion: "acid.zalan.do/v1"
+kind: OperatorConfiguration
+metadata:
+  name: postgresql-operator-configuration
+configuration:
+  aws_or_gcp:
+    aws_region: ap-northeast-2
+    kube_iam_role: arn:aws:iam::910058517622:role/pg-operator-s3-role
+    wal_s3_bucket: zionex-pg

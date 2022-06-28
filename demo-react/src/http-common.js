@@ -1,9 +1,8 @@
 import axios from "axios";
 
 export default axios.create({
-    baseURL: 'http://a2db1b87113cb42d7a0660bde6aa047b-137018002.ap-northeast-2.elb.amazonaws.com:8080/api/v1',
+    baseURL: 'http://a3ba4a26ed7b04494a79dee6154b3716-1143723803.ap-northeast-1.elb.amazonaws.com/api/v1',
     headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin':'*',
     }
 });

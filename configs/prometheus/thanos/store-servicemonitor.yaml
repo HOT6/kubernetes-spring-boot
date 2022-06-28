@@ -1,0 +1,17 @@
+# store-servicemonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: thanos-store
+  namespace: monitoring
+  labels:
+    release: prom-op
+spec:
+  jobLabel: thanos
+  endpoints:
+    - port: http
+      path: /metrics
+      interval: 30s
+  selector:
+    matchLabels:
+      app: thanos-store

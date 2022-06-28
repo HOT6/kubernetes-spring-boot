@@ -1,0 +1,40 @@
+apiVersion: acid.zalan.do/v1
+kind: postgresql
+metadata:
+ name: staging-db
+spec:
+ numberOfInstances: 3
+ patroni:
+   synchronous_mode: true
+ postgresql:
+   version: "11"
+ resources:
+   limits:
+     cpu: 100m
+     memory: 1Gi
+   requests:
+     cpu: 100m
+     memory: 1Gi
+ sidecars:
+ - env:
+   - name: DATA_SOURCE_URI
+     value: 127.0.0.1:5432
+   - name: DATA_SOURCE_PASS
+     valueFrom:
+       secretKeyRef:
+         key: password
+         name: postgres.staging-db.credentials
+   - name: DATA_SOURCE_USER
+     value: postgres
+   image: wrouesnel/postgres_exporter
+   name: prometheus-exporter
+   resources:
+     limits:
+       cpu: 500m
+       memory: 100Mi
+     requests:
+       cpu: 100m
+       memory: 100Mi
+ teamId: staging
+ volume:
+   size: 2Gi

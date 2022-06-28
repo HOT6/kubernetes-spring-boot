@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spring-info
+  namespace: spring
+data:
+  db-host: a3306ac9223a344d1ae706071961f918-1611202810.ap-northeast-2.elb.amazonaws.com
