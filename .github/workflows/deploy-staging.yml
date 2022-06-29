@@ -37,6 +37,7 @@ jobs:
       - name: Build with npm
         run: |
           cd demo-react
+          npm install
           npm run build
 
       - name: Build with mvn
