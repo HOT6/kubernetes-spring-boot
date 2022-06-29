@@ -29,10 +29,12 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build with npm
+      - name: Set up Node 14
         uses: actions/setup-node@v1
         with:
           node-version: 14
+
+      - name: Build with npm
         run: |
           cd demo-react
           npm run build
@@ -51,6 +53,4 @@ jobs:
           docker build -t demo .
           docker tag $ECR_REPOSITORY $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-
-
 
