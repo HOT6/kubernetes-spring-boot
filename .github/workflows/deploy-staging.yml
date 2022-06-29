@@ -37,8 +37,10 @@ jobs:
       - name: Build with npm
         run: |
           cd demo-react
+          npm cache clean --force
+          rm -rf node_modules package-lock.json
           npm install
-          npm run build
+          CI='' npm run build
 
       - name: Build with mvn
         run: |
