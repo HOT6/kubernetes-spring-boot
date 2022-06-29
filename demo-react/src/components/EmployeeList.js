@@ -42,7 +42,7 @@ const EmployeeList = () => {
         <table className="table table-bordered table-striped">
           <thead className="thead-dark">
             <tr>
-              <th>Name</th>
+              <th>Name-teststefsa</th>
               <th>Location-deploy-test</th>
               <th>Department</th>
               <th>Actions</th>
