@@ -50,10 +50,10 @@ jobs:
       - name: Dockerize and push image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: zionex-eks-tokyo
-          IMAGE_TAG: latest
+          ECR_REPOSITORY: zionex-ecr-tokyo
+          IMAGE_TAG: demo
         run: |
           docker build -t demo .
-          docker tag $ECR_REPOSITORY $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker tag $IMAGE_TAG:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
