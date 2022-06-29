@@ -57,3 +57,17 @@ jobs:
           docker tag $IMAGE_TAG:latest $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
+      - name: Set up kubectl
+        uses: tale/kubectl-action@v1
+        with:
+          kubectl-version: v1.21.2
+
+      - name: Patch deployment
+        env:
+          CLUSTER_NAME: zionex-eks-tokyo
+          NAMESPACE: spring
+          DEPLOYMENT: spring-boot-demo
+        run: |
+          aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name $CLUSTER_NAME
+          kubectl -n $NAMESPACE rollout restart deployment $DEPLOYMENT
+
