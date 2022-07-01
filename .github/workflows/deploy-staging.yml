@@ -1,4 +1,4 @@
-name: deploy-staging
+name: deploy-spring-eks
 
 on:
   workflow_dispatch:
