@@ -15,10 +15,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: *
-        exclude:
+        include: "*"
     jmx:
       exposure:
-        include: *
-        exclude:
-    
+        include: "*"
