@@ -539,7 +539,7 @@ kubectl port-forward svc/postgres-operator-ui 8081:80 -n postgres-test
   ```
 
   - localhost:8081 접속 후 클러스터 생성
-  
+
   ![](./images/pg-operator-ui-create-cluster.png)
 
   - postgres password 확인
