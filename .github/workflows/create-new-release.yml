@@ -36,3 +36,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: Release.txt
+          tag_name: ${{ steps.create-tag.outputs.new_tag }}
