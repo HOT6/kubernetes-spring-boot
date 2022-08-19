@@ -30,7 +30,7 @@ jobs:
       - name: test2
         run: |
           echo ${{ github.ref }}
-          echo ${{ stpes.create-tag.outputs.new_tag }}
+          echo ${{ steps.create-tag.outputs.new_tag }}
 
       - name: Create release
         uses: softprops/action-gh-release@v1
