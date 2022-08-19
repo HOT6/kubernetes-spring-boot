@@ -29,6 +29,7 @@ jobs:
       - name: test2
         run: |
           echo ${{ github.ref }}
+          echo ${{ new_tag }}
 
       - name: Create release
         uses: softprops/action-gh-release@v1
