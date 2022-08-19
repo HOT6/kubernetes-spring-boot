@@ -26,6 +26,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
 
+      - name: test2
+        run: |
+          echo ${{ github.ref }}
+
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
