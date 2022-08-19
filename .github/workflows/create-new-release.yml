@@ -16,7 +16,17 @@ jobs:
           java-version: 11
 
       - name: test
-        run: echo ${{ github.ref }}
+        run: |
+          echo ${{ github.ref }} > Release.txt
+          echo ${{ github.sha }}
+
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@1.36.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
 
       - name: Create release
         uses: softprops/action-gh-release@v1
+        with:
+          files: Release.txt
