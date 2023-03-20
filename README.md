@@ -124,13 +124,13 @@ spring-boot-service   LoadBalancer   10.100.74.133   a2db1b87113cb42d7a0660bde6a
   ```
   data:
     mapRoles: |
-      - rolearn: arn:aws:iam::910058517622:role/EKSNodeRole
+      - rolearn: arn:aws:iam::{ACCOUNT_ID}:role/EKSNodeRole
         username: <system:node:{{EC2PrivateDNSName}}>
         groups:
           - system:bootstrappers
           - system:nodes
     mapUsers: |
-      - userarn: arn:aws:iam::910058517622:user/joonseo
+      - userarn: arn:aws:iam::{ACCOUNT_ID}:user/joonseo
         username: joonseo
         groups:
           - system:masters
@@ -158,10 +158,10 @@ brew install derailed/k9s/k9s
   
   # AWS ECR repo push commands 참고
 
-  aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password -stdin 910058517622.dkr.ecr.ap-northeast-2.amazonaws.com
+  aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password -stdin {ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com
   docker build -t demo .
-  docker tag demo:latest 910058517622.dkr.ecr.ap-northeast-2.amazonaws.com/zionex-ecr:demo
-  docker push 910058517622.dkr.ecr.ap-northeast-2.amazonaws.com/zionex-ecr:demo
+  docker tag demo:latest {ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/zionex-ecr:demo
+  docker push {ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/zionex-ecr:demo
   ```
 
 
@@ -207,7 +207,7 @@ spec:
     spec:
       containers:
       - name: spring-boot
-        image: 910058517622.dkr.ecr.ap-northeast-2.amazonaws.com/zionex-ecr:demo
+        image: {ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/zionex-ecr:demo
         imagePullPolicy: "Always"
         ports:
         - containerPort: 8080
