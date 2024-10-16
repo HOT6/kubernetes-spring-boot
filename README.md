@@ -451,7 +451,6 @@ kubectl port-forward --namespace monitoring svc/prometheus-grafana 8080:80
 
 
 # Incident response platform - Pagerduty 
-  - https://zionex.pagerduty.com/
   - Alert rule 추가 ([`configs/prometheus/alert-rules.yaml`](./configs/prometheus/alert-rules.yaml))
 ```
 additionalPrometheusRulesMap:
